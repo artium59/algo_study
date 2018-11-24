@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
 int main() {
-    int a, b, v, snail = 0, ans = 1;
+    int a, b, v, ans = 1;
     scanf("%d %d %d", &a, &b, &v);
     
     v -= a;
