@@ -1,36 +1,23 @@
-#include <bits/stdc++.h>
+#include <iostream>
 
 int main() {
     int t;
     scanf("%d", &t);
     
-    // 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-    //   1   2     3     4       5     6   7
-    // 1칸 2칸  3칸   3칸    3칸     2칸  1칸
-    for (int i = 0; i < t; i++) {
-        long long x, y, j, ans;
-        scanf("%lld %lld", &x, &y);
-
-        y = y - x;
-        x = 0;
-        if (y == 1)
-            ans = 1;
-        else if (y == 2)
-            ans = 2;
-        else {
-            for (j = 1; ; j++) {
-                x += j;
-                y -= j;
-                if (x >= y) {
-                    if (y - x <= -j)
-                        ans = j * 2 - 1;
-                    else
-                        ans = j * 2;
-                    break;
-                }
+    for (int h = 0; h < t; h++) {
+        int x, y, ans = 0;
+  
+        scanf("%d %d", &x, &y);
+        y = y-x; x = 0;
+  
+        for (int i = 1; ; i++) {
+            y -= i; x += i;
+            if (x >= y) {
+                if (x - y < i) printf("%d\n", 2*i);
+                else printf("%d\n", 2*i-1);
+                break;
             }
         }
-        printf("%lld\n", ans);
     }
     
     return 0;
