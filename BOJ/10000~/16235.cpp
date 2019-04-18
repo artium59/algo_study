@@ -4,21 +4,21 @@
 #include <queue>
 
 int n, m, k, land[12][12], A[12][12], check[12][12];
-std::priority_queue<int> tree[12][12];
+std::deque<int> tree[12][12];
 
 void SpringSummer(int y, int x) {
     int cur;
     bool swch = true;
-    std::priority_queue<int> pq;
+    std::deque<int> dq;
     
     while (!tree[y][x].empty()) {
-        cur = -tree[y][x].top();
-        tree[y][x].pop();
+        cur = tree[y][x].front();
+        tree[y][x].pop_front();
         
         if (land[y][x] >= cur && swch) {
             land[y][x] -= cur; cur++;
             if (cur%5 == 0) check[y][x]++;
-            pq.push(-cur);
+            dq.push_back(cur);
         }
         else { // Summer
             swch = false;
@@ -26,14 +26,14 @@ void SpringSummer(int y, int x) {
         }
     }
     
-    tree[y][x] = pq;
+    tree[y][x] = dq;
 }
 
 void Autumn(int y, int x) {
     for (int i = 0; i < check[y][x]; i++) {
-        tree[y-1][x-1].push(-1);  tree[y-1][x].push(-1); tree[y-1][x+1].push(-1);
-        tree[y][x-1].push(-1); tree[y][x+1].push(-1);
-        tree[y+1][x-1].push(-1); tree[y+1][x].push(-1); tree[y+1][x+1].push(-1);
+        tree[y-1][x-1].push_front(1);  tree[y-1][x].push_front(1); tree[y-1][x+1].push_front(1);
+        tree[y][x-1].push_front(1); tree[y][x+1].push_front(1);
+        tree[y+1][x-1].push_front(1); tree[y+1][x].push_front(1); tree[y+1][x+1].push_front(1);
     }
     
     check[y][x] = 0;
@@ -60,7 +60,7 @@ int main() {
     }
     for (int i = 0; i < m; i++) {
         scanf("%d %d %d", &x, &y, &z);
-        tree[x][y].push(-z);
+        tree[x][y].push_back(z);
     }
     
     for (int h = 0; h < k; h++) {
