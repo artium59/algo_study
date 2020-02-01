@@ -2,14 +2,14 @@
 using namespace std;
 using ll = long long;
 
-inline int max(ll a, ll b) { return a > b ? a : b; }
+inline ll max(ll a, ll b) { return a > b ? a : b; }
 
 int n;
 ll ans = -1234567890;
 ll already[19];
 string fomula;
 
-void find(int idx, int sum) {
+void find(int idx, ll sum) {
     if (idx >= n) {
         ans = max(ans, sum);
         return;
