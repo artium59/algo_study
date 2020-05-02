@@ -6,8 +6,6 @@ int n, ans = 1;
 char tmp, board[50][50];
 
 int main() {
-    freopen("input.txt", "r", stdin);
-
     function<void(int, int)> row = [](int i, int j) {
         int cnt = 1;
 
