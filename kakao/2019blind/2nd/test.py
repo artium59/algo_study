@@ -72,7 +72,7 @@ def command(elevator, calls, direction, expect, check, top_floor):
             # 층과 방향이 같은지 체크한다.
             if call['start'] == elevator['floor'] and direction[elevator['id']] * (call['end'] - call['start']) >= 0:
                 # 자리가 있는지, 앞에 먼저 탔는지 체크한다.
-                if len(elevator['passengers']) < 8 and check[call['id']]:
+                if len(elevator['passengers'])+len(ret['call_ids']) < 8 and check[call['id']]:
                     # 자리가 있다면 일단 태우자.
                     check[call['id']] = False
                     ret['command'] = 'ENTER'
