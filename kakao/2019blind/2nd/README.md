@@ -14,4 +14,9 @@ AveWait: 42.240000, AveTravel: 21.875000, AveTotal: 64.115000, LastTs: 601, Stat
 
 ## 문제2. 라이언 타워 (problem_id = 2)
 
-**2020.09.26 NOT Solved**
+Timestamp: 
+0 / 1904
+
+AveWait: 24.442000, AveTravel: 16.996000, AveTotal: 41.438000, LastTs: 1904, Status: OK
+
+**2020.09.26 NOT Optimization**
