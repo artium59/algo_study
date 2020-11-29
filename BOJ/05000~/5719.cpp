@@ -2,33 +2,41 @@
 #include <cstring>
 #include <functional>
 #include <queue>
+#include <vector>
 using namespace std;
 
+const int MAX = 7654321;
 int n, m, s, d, u, v, p;
-int graph[500][500], visited[500];
+int graph[500][500];
+vector<int> dist;
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    function<void()> dijkstra = []() {
-        int cost, cur;
-        priority_queue<pair<int, int>> pq;
+    function<void()> spfa = []() {
+        int cur;
+        queue<int> q;
+        vector<bool> inq(n, false);
+        dist = vector<int>(n, MAX);
 
-        pq.push({ 0, s });
-        while (!pq.empty()) {
-            cost = -pq.top().first;
-            cur = pq.top().second;
-            pq.pop();
+        q.push(s);
+        inq[s] = true;
+        dist[s] = 0;
 
-            if (cur == d) break;
+        while (!q.empty()) {
+            cur = q.front();
+            q.pop();
+            inq[cur] = false;
 
             for (int i = 0; i < n; ++i) {
-                if (i == s || graph[cur][i] == 0) continue;
-                if (visited[i] != -1 && cost+graph[cur][i] > visited[i]) continue;
+                if (graph[cur][i] == 0 || dist[cur] + graph[cur][i] > dist[i]) continue;
 
-                visited[i] = cost + graph[cur][i];
-                pq.push({ -visited[i], i });
+                dist[i] = dist[cur] + graph[cur][i];
+
+                if (inq[i]) continue;
+                inq[i] = true;
+                q.push(i);
             }
         }
     };
@@ -45,11 +53,9 @@ int main() {
             if (cur == s) continue;
 
             for (int i = 0; i < n; ++i) {
-                if (graph[i][cur] == 0 || visited[i] == -1) continue;
-                if (visited[cur] - visited[i] == graph[i][cur]) {
-                    graph[i][cur] = 0;
-                    q.push(i);
-                }
+                if (graph[i][cur] == 0 || dist[i] + graph[i][cur] != dist[cur]) continue;
+                graph[i][cur] = 0;
+                q.push(i);
             }
         }
     };
@@ -58,7 +64,6 @@ int main() {
         cin >> n >> m;
         if (n + m == 0) break;
 
-        memset(visited, -1, sizeof(visited));
         memset(graph, 0, sizeof(graph));
 
         cin >> s >> d;
@@ -67,16 +72,12 @@ int main() {
             graph[u][v] = p;
         }
 
-        visited[s] = 0;
-        dijkstra();
+        spfa();
         bfs();
 
-        memset(visited, -1, sizeof(visited));
-        visited[s] = 0;
-        dijkstra();
-
-        if (visited[d] == 0) visited[d] = -1;
-        cout << visited[d] << '\n';
+        spfa();
+        if (dist[d] == MAX) dist[d] = -1;
+        cout << dist[d] << '\n';
     }
 
     return 0;
