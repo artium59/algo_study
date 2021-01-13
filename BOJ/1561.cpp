@@ -13,14 +13,14 @@ int main() {
     scanf("%lld %d", &n, &m);
     for (int i = 0; i < m; i++)
         scanf("%d", &arr[i]);
-	
+
     while (left <= right) {
         cnt = 0;
         mid = (left+right) / 2;
 
         for (int i = 0; i < m; i++)
             cnt += mid/arr[i] + min(mid%arr[i], 1);
-
+        
         if (n <= cnt) right = mid-1;
         else left = mid+1;
     }
@@ -31,7 +31,8 @@ int main() {
         if (right%arr[i] == 0) vec.push_back(i);
     }
 
-    printf("%d", vec[n-cnt-1]+1);
+    if (m == 1) printf("1");
+    else printf("%d", vec[n-cnt-1]+1);
 
     return 0;
 }
