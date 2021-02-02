@@ -1,45 +1,50 @@
 #include <iostream>
-#include <cstring>
 #include <queue>
 #include <vector>
+using namespace std;
 
-int n, max_dist, a, b, c;
-bool visited[10000];
-std::vector<std::pair<int, int>> tree[10000];
+int n, a, b, c;
+vector<bool> visited;
+vector<pair<int, int>> graph[10000];
 
-void BFS(int start) {
-    int cur, dist;
-    std::queue<std::pair<int, int>> q;
+pair<int, int> bfs(int start) {
+    pair<int, int> cur, ret = { 0, 0 };
+    queue<pair<int, int>> q;
+
+    visited = vector<bool>(n, false);
 
     q.push({ start, 0 });
+    visited[start] = true;
+
     while (!q.empty()) {
-        cur = q.front().first;
-        dist = q.front().second;
+        cur = q.front();
         q.pop();
 
-        if (max_dist < dist) max_dist = dist, a = cur;
+        if (ret.second < cur.second)
+            ret = cur;
 
-        for (const auto& t : tree[cur]) {
-            if (visited[t.first]) continue;
-            visited[t.first] = true;
-            q.push({ t.first, dist+t.second });
+        for (const auto& g : graph[cur.first]) {
+            if (visited[g.first]) continue;
+
+            visited[g.first] = true;
+            q.push({ g.first , cur.second + g.second });
         }
     }
+
+    return ret;
 }
 
 int main() {
     scanf("%d", &n);
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n-1; ++i) {
         scanf("%d %d %d", &a, &b, &c);
-        tree[a-1].push_back({ b-1, c });
-        tree[b-1].push_back({ a-1, c });
+        graph[a-1].push_back({ b-1, c });
+        graph[b-1].push_back({ a-1, c });
     }
 
-    BFS(0);
-    memset(visited, false, sizeof(visited));
-    BFS(a);
+    auto p = bfs(0);
+    p = bfs(p.first);
 
-    printf("%d", max_dist);
-
+    printf("%d", p.second);
     return 0;
 }
