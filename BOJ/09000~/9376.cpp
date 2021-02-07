@@ -68,9 +68,12 @@ int main() {
             for (int j = 1; j <= w; ++j) {
                 if (prison[i][j] == '*') continue;
 
-                tmp = prison[i][j] == '#' ? -2 : 0;
+                tmp = 0;
                 for (int k = 0; k < 3; ++k)
-                tmp += visited[i][j][k];
+                    tmp += visited[i][j][k];
+
+                if (tmp == -3) continue;
+                if (prison[i][j] == '#') tmp -= 2;
 
                 ans = min(ans, tmp);
             }
