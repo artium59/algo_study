@@ -6,7 +6,7 @@ int n, q, a, b, c, arr[100000];
 std::vector<int> tree[263000];
 
 template<typename T, typename U>
-std::pair<T,U> operator+(const std::pair<T,U>& l,const std::pair<T,U>& r) {   
+std::pair<T,U> operator+(const std::pair<T,U>& l, const std::pair<T,U>& r) {   
     return { l.first+r.first, l.second+r.second };
 }
 
@@ -51,7 +51,7 @@ std::pair<int, int> search(int node, int num, int start, int end, int left, int 
 }
 
 int bst() {
-    int l=-1e9, r=1e9, m;
+    int l=-1e9 - 1, r=1e9 + 1, m;
     std::pair<int, int> ret;
 
     while (l <= r) {
